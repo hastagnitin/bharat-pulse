@@ -2,9 +2,22 @@ version: '3.8'
 
 services:
   backend:
-    build: .
-    container_name: bharat_pulse_backend
+    build: 
+      context: .
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - pulse_data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./bharat-pulse-ui
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pulse_data:
